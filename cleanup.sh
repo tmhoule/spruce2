@@ -231,7 +231,7 @@ echo "<h2>Unused Scripts: $scriptCount</h2>" >> $outFile
 echo "<ul>" >> $outFile
 for unusedScript in "${Array3[@]}"; do
     scriptName=`grep -A1 "<id>$unusedScript</id>" /tmp/JSSCleanup/scripts.xml |grep "<name>" |awk -F\> '{print $2}'|awk -F\< '{print $1}'`
-    echo "<li><a target=\"_blank\" href=\"$JSSURL/scripts.html?id=$unusedScript\">Script: $scriptName</a><BR>" >> $outFile
+    echo "<li><a target=\"_blank\" href=\"$JSSURL/view/settings/computer/scripts/$unusedScript\">Script: $scriptName</a><BR>" >> $outFile
 done
 echo "</ul>" >> $outFile
 
@@ -268,11 +268,13 @@ echo "</ul>" >> $outFile
 
 unusedEACount=$(wc -l /private/tmp/JSSCleanup/extnAttrbutes$loopCounterLess.xml |awk '{print $1}')
 echo "<h2>Unused EAs: $unusedEACount</h2>" >> $outFile
+echo "<h2>Caution! EA's may not be scoped to any groups but still be used.</h2>" >> $outFile
 echo "<ul>" >> $outFile
-    while read -r line; do
-#        if [ ! -z "$line" ];
-	    echo "<li>Extension Attribute: $line" >> $outFile
-#        fi
+    while read -r line; do 
+        echo "**** EA is $line ****"
+        EAID=$(cat /private/tmp/JSSCleanup/extnAttrbutes.xml | grep -B 1 "$line" | grep -v "$line" | sed 's/[^0-9*]//g')
+        echo "**** EAID is $EAID ***"
+        echo "<li><a target=\"_blank\" href=\"$JSSURL/computerExtensionAttributes.html?id=$EAID\">EA: $line</a><BR>" >> $outFile
     done < "/private/tmp/JSSCleanup/extnAttrbutes$loopCounterLess.xml"
 echo "</ul>" >> $outFile
 
