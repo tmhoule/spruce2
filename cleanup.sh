@@ -5,8 +5,8 @@
 
 
 ########### EDIT THESE ##################################
-JSSURL="https://jss.school.edu:8443"
-user="apiusername"
+JSSURL="https://example.jamfcloud.com:443"
+user="aname"
 pass="sekretz"
 ############################################################
 
